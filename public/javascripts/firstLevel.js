@@ -21,13 +21,16 @@ Crafty.e('Floor, 2D, Canvas, Color')
   .attr({x: 450, y: 250, w: 250, h: 10})
   .color('red');  
 
-Crafty.sprite("images/player-sprite.png", {xillo:[0,88,85,85]});
+//Crafty.sprite("images/player-sprite.png", {xillo:[0,178,85,85]});
+Crafty.sprite("images/player-sprite.png", {xillo:[0,90,85,85]});
 
 var player = Crafty.e('2D, DOM, Color, Gravity,Tween,xillo,SpriteAnimation')
   .attr({x: 0, y: 0, w: 87, h: 87})  
   .gravity('Floor')
   .gravityConst(0.5)
-  .reel('walkRight', 300, [[88, 88], [176, 88], [264, 88], [0, 88]])
+  .reel('walkRight', 300, [[86, 178], [166, 178], [244, 178], [0, 178]])
+  .reel('walkleft', 300, [[86, 260], [166, 260], [244, 260], [0, 260]])
+  .reel('jumpRight', 300, [[86, 0], [169, 0], [244, 0], [0, 88]])
   .bind("EnterFrame", function(e) {
 	//console.log(player.attr().x);
 	TopLeftCrl.attr().x  = player.attr().x - TopLeftCrl.attr().w;
@@ -50,8 +53,8 @@ var TopRightCrl = Crafty.e('2D, Canvas, Color, Mouse,Tween')
 	//.color('purple')
 	.bind('Click', function() {
      playerOld_x = player.attr().x;
-     playerCurrent_x = (playerOld_x + steps )*2;
-     player.tween({ y: 50, x: playerCurrent_x}, 500)
+     playerCurrent_x = (playerOld_x + steps )*0.5;
+     player.animate('jumpRight').loops(2).tween({ y: 50, x: playerCurrent_x}, 500)
 	});
 
 var TopLeftCrl = Crafty.e('2D, Canvas, Color, Mouse,Tween')
@@ -85,7 +88,7 @@ var LeftCrl = Crafty.e('2D, Canvas, Color, Mouse,Tween')
 	.bind('Click', function() {
      playerOld_x = player.attr().x;
      playerCurrent_x = playerOld_x - steps;
-     player.tween({ x: playerCurrent_x}, 200)
+     player.animate('walkleft',-1).loops(1).tween({ x: playerCurrent_x}, 200)
 	});
 
 
